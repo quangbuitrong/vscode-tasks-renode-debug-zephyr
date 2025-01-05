@@ -1,0 +1,19 @@
+:name: nxp K64F
+:description: This script runs the Zephyr shell_module sample on nxp K64F.
+
+using sysbus
+$name?="K64F"
+mach create $name
+
+machine LoadPlatformDescription @platforms/cpus/nxp-k6xf.repl
+
+showAnalyzer uart0
+
+$bin ?= @https://dl.antmicro.com/projects/renode/stm32l07--zephyr-shell_module.elf-s_1195760-e9474da710aca88c89c7bddd362f7adb4b0c4b70
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset
